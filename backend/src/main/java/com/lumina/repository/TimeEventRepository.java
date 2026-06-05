@@ -11,5 +11,5 @@ import java.util.UUID;
 @Repository
 public interface TimeEventRepository extends JpaRepository<TimeEvent, UUID> {
 
-    List<TimeEvent> findByStartTimeBetweenOrderByStartTimeAsc(OffsetDateTime startTime, OffsetDateTime endTime);
+    List<TimeEvent> findByUserIdAndStartTimeBetweenOrderByStartTimeAsc(String userId, OffsetDateTime startTime, OffsetDateTime endTime);
 }

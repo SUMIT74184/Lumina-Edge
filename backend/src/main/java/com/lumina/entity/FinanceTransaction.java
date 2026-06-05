@@ -19,6 +19,9 @@ public class FinanceTransaction {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "user_id", nullable = false)
+    private String userId;
+
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal amount;
 

@@ -21,8 +21,9 @@ public class TimeService {
     private final TimeEventRepository repository;
 
     @Transactional
-    public EventResponse createEvent(EventRequest request) {
+    public EventResponse createEvent(String userId, EventRequest request) {
         TimeEvent entity = TimeEvent.builder()
+                .userId(userId)
                 .title(request.getTitle())
                 .description(request.getDescription())
                 .startTime(request.getStartTime())
@@ -36,20 +37,21 @@ public class TimeService {
     }
 
     @Transactional(readOnly = true)
-    public List<EventResponse> getEvents(LocalDate startDate, LocalDate endDate) {
+    public List<EventResponse> getEvents(String userId, LocalDate startDate, LocalDate endDate) {
         OffsetDateTime start = startDate.atStartOfDay().atOffset(ZoneOffset.UTC);
         OffsetDateTime end = endDate.plusDays(1).atStartOfDay().atOffset(ZoneOffset.UTC);
 
-        return repository.findByStartTimeBetweenOrderByStartTimeAsc(start, end)
+        return repository.findByUserIdAndStartTimeBetweenOrderByStartTimeAsc(userId, start, end)
                 .stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public EventResponse updateEvent(java.util.UUID id, EventRequest request) {
+    public EventResponse updateEvent(String userId, java.util.UUID id, EventRequest request) {
         TimeEvent entity = repository.findById(id)
-                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Event not found"));
+                .filter(e -> e.getUserId().equals(userId))
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Event not found or unauthorized"));
         
         entity.setTitle(request.getTitle());
         entity.setDescription(request.getDescription());
@@ -62,8 +64,11 @@ public class TimeService {
     }
 
     @Transactional
-    public void deleteEvent(java.util.UUID id) {
-        repository.deleteById(id);
+    public void deleteEvent(String userId, java.util.UUID id) {
+        TimeEvent entity = repository.findById(id)
+                .filter(e -> e.getUserId().equals(userId))
+                .orElseThrow(() -> new jakarta.persistence.EntityNotFoundException("Event not found or unauthorized"));
+        repository.delete(entity);
     }
 
     private EventResponse toResponse(TimeEvent entity) {

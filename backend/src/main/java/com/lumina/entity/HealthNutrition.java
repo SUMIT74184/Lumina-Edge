@@ -18,6 +18,10 @@ public class HealthNutrition {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "user_id", nullable = false)
+    private String userId;
+
+
     @Column(name = "log_date", nullable = false)
     private LocalDate logDate;
 

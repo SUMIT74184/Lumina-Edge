@@ -17,8 +17,12 @@ export default function PaidGuard({ children }: { children: React.ReactNode }) {
         return;
       }
 
-      // Check if user has premium plan in metadata OR if environment allows bypassing for testing
-      const hasPremium = user?.publicMetadata?.plan === 'elite' || 
+      // Admin always gets full access
+      const isAdmin = user?.primaryEmailAddress?.emailAddress === 'jaiprakashray747@gmail.com';
+      
+      // Check if user has premium plan in metadata OR is admin
+      const hasPremium = isAdmin ||
+                         user?.publicMetadata?.plan === 'elite' || 
                          user?.publicMetadata?.plan === 'max' ||
                          user?.publicMetadata?.role === 'admin' ||
                          process.env.NODE_ENV === 'development' ||

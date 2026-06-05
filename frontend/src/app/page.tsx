@@ -50,36 +50,25 @@ export default function HomePage() {
     uptime: 99.98
   });
 
-  // Generate 24 hours of mock activity for the heatmap
+  // Fetch real hourly activity data
+  interface HourlyActivity { hour: number; count: number; }
+  const { data: rawActivityData } = useFetch<HourlyActivity[]>(`/activity/hourly?date=${currentDate}`);
+  
   const [activityData, setActivityData] = useState<any[]>([]);
   useEffect(() => {
-    // Generate beautiful curved data for 24 hours
-    const generateData = () => Array.from({ length: 24 }, (_, i) => {
-      // Simulate peak hours around 9am, 2pm, and 8pm
-      let base = 10;
-      if (i >= 8 && i <= 11) base = 50 + Math.random() * 30;
-      if (i >= 13 && i <= 16) base = 60 + Math.random() * 40;
-      if (i >= 19 && i <= 22) base = 70 + Math.random() * 20;
-      return {
+    if (rawActivityData && rawActivityData.length > 0) {
+      setActivityData(rawActivityData.map(d => ({
+        time: `${d.hour.toString().padStart(2, '0')}:00`,
+        activity: d.count
+      })));
+    } else {
+      // Show empty 24-hour grid when no data yet
+      setActivityData(Array.from({ length: 24 }, (_, i) => ({
         time: `${i.toString().padStart(2, '0')}:00`,
-        activity: Math.floor(base + Math.random() * 15)
-      };
-    });
-    
-    setActivityData(generateData());
-
-    // Make the graph dynamic by fluctuating values every 3 seconds
-    const activityInterval = setInterval(() => {
-      setActivityData(prev => prev.map(dataPoint => {
-        // Randomly fluctuate activity up or down by a small amount
-        const fluctuation = Math.floor(Math.random() * 10) - 5;
-        const newActivity = Math.max(0, dataPoint.activity + fluctuation);
-        return { ...dataPoint, activity: newActivity };
-      }));
-    }, 3000);
-
-    return () => clearInterval(activityInterval);
-  }, []);
+        activity: 0
+      })));
+    }
+  }, [rawActivityData]);
 
   useEffect(() => {
     const interval = setInterval(() => {

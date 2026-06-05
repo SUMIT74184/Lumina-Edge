@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ClerkProvider } from '@clerk/nextjs'
 import "./globals.css";
 import { SidebarProvider } from '@/context/SidebarContext';
+import ActivityTracker from '@/components/ActivityTracker';
 
 export const metadata: Metadata = {
   title: "Lumina Edge",
@@ -29,6 +30,7 @@ export default function RootLayout({
         </head>
         <body className="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container">
           <SidebarProvider>
+            <ActivityTracker />
             {children}
           </SidebarProvider>
         </body>

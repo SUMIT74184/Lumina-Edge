@@ -15,13 +15,13 @@ import java.util.UUID;
 @Repository
 public interface FinanceTransactionRepository extends JpaRepository<FinanceTransaction, UUID> {
 
-    Page<FinanceTransaction> findByTransactionDateBetween(LocalDate startDate, LocalDate endDate, Pageable pageable);
+    Page<FinanceTransaction> findByUserIdAndTransactionDateBetween(String userId, LocalDate startDate, LocalDate endDate, Pageable pageable);
 
     @Query("SELECT COALESCE(SUM(ft.amount), 0) FROM FinanceTransaction ft " +
-           "WHERE ft.transactionType = 'INCOME' AND ft.transactionDate BETWEEN :startDate AND :endDate")
-    BigDecimal sumIncomeByDateRange(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+           "WHERE ft.userId = :userId AND ft.transactionType = 'INCOME' AND ft.transactionDate BETWEEN :startDate AND :endDate")
+    BigDecimal sumIncomeByDateRange(@Param("userId") String userId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
     @Query("SELECT COALESCE(SUM(ft.amount), 0) FROM FinanceTransaction ft " +
-           "WHERE ft.transactionType = 'EXPENSE' AND ft.transactionDate BETWEEN :startDate AND :endDate")
-    BigDecimal sumExpenseByDateRange(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+           "WHERE ft.userId = :userId AND ft.transactionType = 'EXPENSE' AND ft.transactionDate BETWEEN :startDate AND :endDate")
+    BigDecimal sumExpenseByDateRange(@Param("userId") String userId, @Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 }

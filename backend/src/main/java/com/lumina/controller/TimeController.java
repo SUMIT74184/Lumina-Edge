@@ -21,30 +21,36 @@ public class TimeController {
     private final TimeService timeService;
 
     @PostMapping("/events")
-    public ResponseEntity<EventResponse> createEvent(@Valid @RequestBody EventRequest request) {
-        EventResponse response = timeService.createEvent(request);
+    public ResponseEntity<EventResponse> createEvent(
+            @RequestHeader("X-User-Id") String userId,
+            @Valid @RequestBody EventRequest request) {
+        EventResponse response = timeService.createEvent(userId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/events")
     public ResponseEntity<List<EventResponse>> getEvents(
+            @RequestHeader("X-User-Id") String userId,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
-        List<EventResponse> events = timeService.getEvents(startDate, endDate);
+        List<EventResponse> events = timeService.getEvents(userId, startDate, endDate);
         return ResponseEntity.ok(events);
     }
 
     @PutMapping("/events/{id}")
     public ResponseEntity<EventResponse> updateEvent(
+            @RequestHeader("X-User-Id") String userId,
             @PathVariable java.util.UUID id,
             @Valid @RequestBody EventRequest request) {
-        EventResponse response = timeService.updateEvent(id, request);
+        EventResponse response = timeService.updateEvent(userId, id, request);
         return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/events/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable java.util.UUID id) {
-        timeService.deleteEvent(id);
+    public ResponseEntity<Void> deleteEvent(
+            @RequestHeader("X-User-Id") String userId,
+            @PathVariable java.util.UUID id) {
+        timeService.deleteEvent(userId, id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface HealthWorkoutRepository extends JpaRepository<HealthWorkout, UUID> {
-    List<HealthWorkout> findByWorkoutDateOrderByCreatedAtDesc(LocalDate workoutDate);
-    List<HealthWorkout> findAllByOrderByWorkoutDateDesc();
+    List<HealthWorkout> findByUserIdAndWorkoutDateOrderByCreatedAtDesc(String userId, LocalDate workoutDate);
+    List<HealthWorkout> findAllByUserIdOrderByWorkoutDateDesc(String userId);
 }

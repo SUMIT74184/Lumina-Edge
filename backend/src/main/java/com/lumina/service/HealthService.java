@@ -28,8 +28,9 @@ public class HealthService {
     // ---- Workouts ----
 
     @Transactional
-    public WorkoutResponse createWorkout(WorkoutRequest request) {
+    public WorkoutResponse createWorkout(String userId, WorkoutRequest request) {
         HealthWorkout entity = HealthWorkout.builder()
+                .userId(userId)
                 .name(request.getName())
                 .workoutDate(request.getDate())
                 .durationMinutes(request.getDurationMinutes())
@@ -40,29 +41,31 @@ public class HealthService {
     }
 
     @Transactional(readOnly = true)
-    public WorkoutResponse getWorkout(UUID id) {
+    public WorkoutResponse getWorkout(String userId, UUID id) {
         HealthWorkout workout = workoutRepository.findById(id)
+                .filter(w -> w.getUserId().equals(userId))
                 .orElseThrow(() -> new EntityNotFoundException("Workout not found with id: " + id));
         return toWorkoutResponse(workout);
     }
 
     @Transactional(readOnly = true)
-    public List<WorkoutResponse> getWorkoutsByDate(LocalDate date) {
+    public List<WorkoutResponse> getWorkoutsByDate(String userId, LocalDate date) {
         if (date == null) {
-            return workoutRepository.findAllByOrderByWorkoutDateDesc()
+            return workoutRepository.findAllByUserIdOrderByWorkoutDateDesc(userId)
                     .stream()
                     .map(this::toWorkoutResponse)
                     .collect(Collectors.toList());
         }
-        return workoutRepository.findByWorkoutDateOrderByCreatedAtDesc(date)
+        return workoutRepository.findByUserIdAndWorkoutDateOrderByCreatedAtDesc(userId, date)
                 .stream()
                 .map(this::toWorkoutResponse)
                 .collect(Collectors.toList());
     }
 
     @Transactional
-    public WorkoutResponse updateWorkout(UUID id, WorkoutRequest request) {
+    public WorkoutResponse updateWorkout(String userId, UUID id, WorkoutRequest request) {
         HealthWorkout workout = workoutRepository.findById(id)
+                .filter(w -> w.getUserId().equals(userId))
                 .orElseThrow(() -> new EntityNotFoundException("Workout not found with id: " + id));
         
         workout.setName(request.getName());
@@ -73,13 +76,17 @@ public class HealthService {
     }
 
     @Transactional
-    public void deleteWorkout(UUID id) {
-        workoutRepository.deleteById(id);
+    public void deleteWorkout(String userId, UUID id) {
+        HealthWorkout workout = workoutRepository.findById(id)
+                .filter(w -> w.getUserId().equals(userId))
+                .orElseThrow(() -> new EntityNotFoundException("Workout not found with id: " + id));
+        workoutRepository.delete(workout);
     }
 
     @Transactional
-    public WorkoutResponse.ExerciseResponse addExercise(UUID workoutId, ExerciseRequest request) {
+    public WorkoutResponse.ExerciseResponse addExercise(String userId, UUID workoutId, ExerciseRequest request) {
         HealthWorkout workout = workoutRepository.findById(workoutId)
+                .filter(w -> w.getUserId().equals(userId))
                 .orElseThrow(() -> new EntityNotFoundException("Workout not found with id: " + workoutId));
 
         List<HealthExercise.ExerciseSet> sets = request.getSets() != null
@@ -89,6 +96,7 @@ public class HealthService {
                 : List.of();
 
         HealthExercise exercise = HealthExercise.builder()
+                .userId(userId)
                 .workout(workout)
                 .exerciseName(request.getExerciseName())
                 .targetMuscleGroup(request.getMuscleGroup())
@@ -110,8 +118,9 @@ public class HealthService {
     // ---- Nutrition ----
 
     @Transactional
-    public HealthNutrition logNutrition(NutritionRequest request) {
+    public HealthNutrition logNutrition(String userId, NutritionRequest request) {
         HealthNutrition entity = HealthNutrition.builder()
+                .userId(userId)
                 .logDate(request.getDate())
                 .mealName(request.getMealName())
                 .calories(request.getCalories())
@@ -124,16 +133,17 @@ public class HealthService {
     }
 
     @Transactional(readOnly = true)
-    public List<HealthNutrition> getNutritionByDate(LocalDate date) {
+    public List<HealthNutrition> getNutritionByDate(String userId, LocalDate date) {
         if (date == null) {
-            return nutritionRepository.findAllByOrderByLogDateDesc();
+            return nutritionRepository.findAllByUserIdOrderByLogDateDesc(userId);
         }
-        return nutritionRepository.findByLogDateOrderByCreatedAtDesc(date);
+        return nutritionRepository.findByUserIdAndLogDateOrderByCreatedAtDesc(userId, date);
     }
 
     @Transactional
-    public HealthNutrition updateNutrition(UUID id, NutritionRequest request) {
+    public HealthNutrition updateNutrition(String userId, UUID id, NutritionRequest request) {
         HealthNutrition entity = nutritionRepository.findById(id)
+                .filter(n -> n.getUserId().equals(userId))
                 .orElseThrow(() -> new EntityNotFoundException("Nutrition log not found with id: " + id));
         
         entity.setLogDate(request.getDate());
@@ -147,17 +157,20 @@ public class HealthService {
     }
 
     @Transactional
-    public void deleteNutrition(UUID id) {
-        nutritionRepository.deleteById(id);
+    public void deleteNutrition(String userId, UUID id) {
+        HealthNutrition entity = nutritionRepository.findById(id)
+                .filter(n -> n.getUserId().equals(userId))
+                .orElseThrow(() -> new EntityNotFoundException("Nutrition log not found with id: " + id));
+        nutritionRepository.delete(entity);
     }
 
     @Transactional(readOnly = true)
-    public NutritionSummaryResponse getNutritionSummary(LocalDate date) {
+    public NutritionSummaryResponse getNutritionSummary(String userId, LocalDate date) {
         return NutritionSummaryResponse.builder()
-                .totalCalories(nutritionRepository.sumCaloriesByDate(date))
-                .totalProtein(nutritionRepository.sumProteinByDate(date))
-                .totalCarbs(nutritionRepository.sumCarbsByDate(date))
-                .totalFats(nutritionRepository.sumFatsByDate(date))
+                .totalCalories(nutritionRepository.sumCaloriesByDate(userId, date))
+                .totalProtein(nutritionRepository.sumProteinByDate(userId, date))
+                .totalCarbs(nutritionRepository.sumCarbsByDate(userId, date))
+                .totalFats(nutritionRepository.sumFatsByDate(userId, date))
                 .date(date.toString())
                 .build();
     }
