@@ -1,19 +1,35 @@
-# 🪐 Lumina Edge
+# Lumina Edge
 
 > **Lumina Edge** is an open-source, self-hosted personal productivity, finance, health, and activity-tracking dashboard designed for developers and power users. It provides absolute privacy and data isolation with a unified, state-of-the-art UI.
 
 ---
 
-## 🏛️ System Architecture
+## System Architecture
 
 Lumina Edge is designed with a modern decoupled, multi-tenant architectural style. By separation of concerns, the application splits the presentation layer from the core business logic.
 
 ```mermaid
 graph TD
-    Client[Next.js Frontend] <-->|HTTP REST + X-User-Id| API[Spring Boot REST API]
-    API <-->|Spring Data JPA| DB[(PostgreSQL Database)]
-    Client <-->|Session Auth| Clerk[Clerk Auth Provider]
-    API --->|Flyway Migrations| DB
+    %% Define Nodes
+    Client["Next.js Frontend (React/TS)"]
+    API["Spring Boot REST API (Java 17)"]
+    DB[("PostgreSQL Database")]
+    Clerk["Clerk Authentication"]
+
+    %% Define Flows
+    Client -->|1. Session Authentication| Clerk
+    Client -->|2. HTTP REST + X-User-Id Header| API
+    API -->|3. Flyway Migrations / JPA Query| DB
+    
+    %% Styling
+    classDef default fill:#1f2937,stroke:#374151,stroke-width:1px,color:#f3f4f6;
+    classDef db fill:#1e3a8a,stroke:#3b82f6,stroke-width:2px,color:#f3f4f6;
+    classDef client fill:#065f46,stroke:#10b981,stroke-width:2px,color:#f3f4f6;
+    classDef auth fill:#701a75,stroke:#d946ef,stroke-width:2px,color:#f3f4f6;
+    
+    class Client client;
+    class DB db;
+    class Clerk auth;
 ```
 
 ### 1. Frontend: Presentation & Telemetry (Next.js)
@@ -33,7 +49,7 @@ graph TD
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 | Layer | Technology | Key Modules Used |
 | :--- | :--- | :--- |
@@ -46,7 +62,7 @@ graph TD
 
 ---
 
-## 📦 Directory Structure
+## Directory Structure
 
 ```text
 Project--root1/
@@ -74,7 +90,7 @@ Project--root1/
 
 ---
 
-## 🚀 Quickstart & Local Setup
+## Quickstart & Local Setup
 
 ### Prerequisites
 Make sure you have the following installed on your machine:
@@ -122,7 +138,7 @@ This single command spins up:
 
 ---
 
-## 🔒 Security & Data Scoping
+## Security & Data Scoping
 
 Lumina Edge implements strict security controls to prevent data exposure between accounts:
 
@@ -137,7 +153,7 @@ Lumina Edge implements strict security controls to prevent data exposure between
 
 ---
 
-## 👑 Admin Control Panel
+## Admin Control Panel
 
 Admin features are restricted to the primary developer email: `jaiprakashray747@gmail.com`.
 The panel allows:
@@ -147,7 +163,7 @@ The panel allows:
 
 ---
 
-## 🤝 Contributing Guidelines
+## Contributing Guidelines
 
 We welcome contributions from open-source developers! Here is how you can help:
 
@@ -164,5 +180,5 @@ We welcome contributions from open-source developers! Here is how you can help:
 
 ---
 
-## 📄 License
+## License
 This project is open-source and licensed under the MIT License.
