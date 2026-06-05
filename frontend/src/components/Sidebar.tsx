@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { UserButton, useUser, SignInButton } from '@clerk/nextjs';
 import GlobalActions from './GlobalActions';
 import { useSidebar } from '@/context/SidebarContext';
+import ProtectedLink from './ProtectedLink';
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -12,9 +13,7 @@ export default function Sidebar() {
   const { isCollapsed, toggleSidebar } = useSidebar();
 
   // Define admin check (Can be set via Clerk Public Metadata or Environment Variable)
-  const isAdmin = user?.publicMetadata?.role === 'admin' || 
-                  user?.primaryEmailAddress?.emailAddress === process.env.NEXT_PUBLIC_ADMIN_EMAIL ||
-                  true; // Temporarily true so you (the existing user) can see it and test it. Remove 'true' for production.
+  const isAdmin = user?.primaryEmailAddress?.emailAddress === 'jaiprakashray747@gmail.com';
 
   const navItems = [
     { name: 'Overview', href: '/', icon: 'dashboard' },
@@ -61,7 +60,7 @@ export default function Sidebar() {
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           return (
-            <Link
+            <ProtectedLink
               key={item.name}
               href={item.href}
               className={`flex items-center gap-4 py-3 rounded-lg font-label-caps text-label-caps transition-all group ${
@@ -79,7 +78,7 @@ export default function Sidebar() {
                   {item.name}
                 </div>
               )}
-            </Link>
+            </ProtectedLink>
           );
         })}
       </nav>

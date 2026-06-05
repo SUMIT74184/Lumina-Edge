@@ -4,6 +4,7 @@ import Sidebar from '@/components/Sidebar';
 import TrialGuard from '@/components/TrialGuard';
 import { useSidebar } from '@/context/SidebarContext';
 import { useUser } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 
 import { useFetch } from '@/hooks/useApi';
 
@@ -25,7 +26,8 @@ interface UserDto {
 
 export default function AdminPanel() {
   const { isCollapsed } = useSidebar();
-  const { user } = useUser();
+  const { user, isLoaded } = useUser();
+  const router = useRouter();
   const { data: metrics, loading } = useFetch<AdminMetrics>('/admin/metrics');
   
   const [users, setUsers] = useState<UserDto[]>([]);
@@ -49,6 +51,16 @@ export default function AdminPanel() {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    if (isLoaded && user?.primaryEmailAddress?.emailAddress !== 'jaiprakashray747@gmail.com') {
+      router.push('/');
+    }
+  }, [isLoaded, user, router]);
+
+  if (!isLoaded || user?.primaryEmailAddress?.emailAddress !== 'jaiprakashray747@gmail.com') {
+    return <div className="min-h-screen bg-background flex items-center justify-center"><div className="animate-spin text-primary material-symbols-outlined text-4xl">sync</div></div>;
+  }
 
   const toggleStatus = async (id: string, action: 'suspend' | 'enable') => {
     setActionLoading(id);

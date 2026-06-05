@@ -8,6 +8,7 @@ import { useSidebar } from '@/context/SidebarContext';
 import { UserButton } from '@clerk/nextjs';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import Link from 'next/link';
+import ProtectedLink from '@/components/ProtectedLink';
 
 // Interfaces matching API payloads
 interface FinanceSummary {
@@ -106,10 +107,10 @@ export default function HomePage() {
               <Link href="/" className="px-4 py-1.5 rounded-full bg-surface-container-high text-primary font-label-caps text-[11px] font-bold shadow-sm transition-all">Overview</Link>
               <Link href="/pricing" className="px-4 py-1.5 rounded-full text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all font-label-caps text-[11px] font-bold">Plans</Link>
             </nav>
-            <Link href="/checkout" className="px-4 py-1.5 rounded-full bg-primary text-on-primary hover:brightness-110 transition-all font-label-caps text-[11px] font-bold shadow-md shadow-primary/20 flex items-center gap-1">
+            <ProtectedLink href="/checkout" className="px-4 py-1.5 rounded-full bg-primary text-on-primary hover:brightness-110 transition-all font-label-caps text-[11px] font-bold shadow-md shadow-primary/20 flex items-center gap-1">
               <span className="material-symbols-outlined text-[14px]">bolt</span>
               Upgrade to Elite
-            </Link>
+            </ProtectedLink>
           </div>
           <div className="flex items-center gap-stack-md">
             <div className="relative hidden sm:block">
@@ -156,7 +157,7 @@ export default function HomePage() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
               {/* Wealth Orbit */}
-              <Link href="/finance" className="md:col-span-2 bg-surface-container-low p-stack-lg rounded-xl flex flex-col justify-between group overflow-hidden relative border border-outline-variant/30 hover:border-primary transition-all duration-300">
+              <ProtectedLink href="/finance" className="md:col-span-2 bg-surface-container-low p-stack-lg rounded-xl flex flex-col justify-between group overflow-hidden relative border border-outline-variant/30 hover:border-primary transition-all duration-300">
                 <div className="relative z-10">
                   <div className="flex justify-between items-start mb-12">
                     <div>
@@ -189,10 +190,10 @@ export default function HomePage() {
                     </ResponsiveContainer>
                   </div>
                 </div>
-              </Link>
+              </ProtectedLink>
 
               {/* Trajectory Flow */}
-              <Link href="/schedule" className="bg-surface-container-low p-stack-lg rounded-xl flex flex-col justify-between border border-outline-variant/30 hover:border-primary transition-all duration-300">
+              <ProtectedLink href="/schedule" className="bg-surface-container-low p-stack-lg rounded-xl flex flex-col justify-between border border-outline-variant/30 hover:border-primary transition-all duration-300">
                 <div>
                   <span className="material-symbols-outlined text-tertiary mb-2 block">timeline</span>
                   <h3 className="font-headline-md text-headline-md font-bold">Trajectory Flow</h3>
@@ -213,10 +214,10 @@ export default function HomePage() {
                     <div className="text-[10px] font-label-caps text-on-surface">CALENDAR LINKED</div>
                   </div>
                 </div>
-              </Link>
+              </ProtectedLink>
 
               {/* Physical Vitality */}
-              <Link href="/health" className="bg-surface-container-low p-stack-lg rounded-xl flex flex-col justify-between border border-outline-variant/30 hover:border-primary transition-all duration-300">
+              <ProtectedLink href="/health" className="bg-surface-container-low p-stack-lg rounded-xl flex flex-col justify-between border border-outline-variant/30 hover:border-primary transition-all duration-300">
                 <div>
                   <span className="material-symbols-outlined text-on-secondary-container mb-2 block">bolt</span>
                   <h3 className="font-headline-md text-headline-md font-bold">Physical Vitality</h3>
@@ -234,7 +235,7 @@ export default function HomePage() {
                     </div>
                   </div>
                 </div>
-              </Link>
+              </ProtectedLink>
 
               {/* Data Visualization - Telemetry Card */}
               <div id="telemetry" className="md:col-span-2 bg-surface-container-low p-stack-lg rounded-xl overflow-hidden relative border border-outline-variant/30 scroll-mt-24">
@@ -334,22 +335,22 @@ export default function HomePage() {
 
         {/* Mobile Bottom Navigation */}
         <nav className="fixed bottom-0 left-0 right-0 h-16 bg-surface-container-low border-t border-outline-variant flex md:hidden items-center justify-around px-4 z-50">
-          <Link href="/finance" className="flex flex-col items-center text-outline hover:text-primary">
+          <ProtectedLink href="/finance" className="flex flex-col items-center text-outline hover:text-primary">
             <span className="material-symbols-outlined">payments</span>
             <span className="text-[10px] font-label-caps">Finance</span>
-          </Link>
-          <Link href="/schedule" className="flex flex-col items-center text-outline hover:text-primary">
+          </ProtectedLink>
+          <ProtectedLink href="/schedule" className="flex flex-col items-center text-outline hover:text-primary">
             <span className="material-symbols-outlined">schedule</span>
             <span className="text-[10px] font-label-caps">Time</span>
-          </Link>
-          <Link href="/health" className="flex flex-col items-center text-outline hover:text-primary">
+          </ProtectedLink>
+          <ProtectedLink href="/health" className="flex flex-col items-center text-outline hover:text-primary">
             <span className="material-symbols-outlined">monitoring</span>
             <span className="text-[10px] font-label-caps">Health</span>
-          </Link>
-          <Link href="/" className="flex flex-col items-center text-outline hover:text-primary">
+          </ProtectedLink>
+          <ProtectedLink href="/" className="flex flex-col items-center text-outline hover:text-primary">
             <span className="material-symbols-outlined">person</span>
             <span className="text-[10px] font-label-caps">Profile</span>
-          </Link>
+          </ProtectedLink>
         </nav>
       </div>
     </TrialGuard>
