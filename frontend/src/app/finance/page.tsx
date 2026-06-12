@@ -159,16 +159,21 @@ export default function FinanceDashboard() {
                 </div>
                 <div>
                   <label className="block text-xs font-label-caps text-outline mb-1 uppercase tracking-wider">Transaction Type</label>
-                  <div className="relative">
-                    <select 
-                      value={form.type} 
-                      onChange={e => setForm({...form, type: e.target.value})} 
-                      className="w-full bg-surface-container px-4 py-3 border border-outline-variant rounded-lg text-on-surface focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all appearance-none cursor-pointer font-bold"
+                  <div className="flex bg-surface-container rounded-lg p-1 border border-outline-variant h-12">
+                    <button 
+                      type="button"
+                      onClick={() => setForm({...form, type: 'EXPENSE'})}
+                      className={`flex-1 py-1 font-label-caps text-xs font-bold rounded-md transition-all ${form.type === 'EXPENSE' ? 'bg-error/10 text-error border border-error/20 shadow-sm' : 'text-outline hover:text-on-surface hover:bg-surface-container-high'}`}
                     >
-                      <option value="EXPENSE">EXPENSE</option>
-                      <option value="INCOME">INCOME</option>
-                    </select>
-                    <span className="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-outline-variant">expand_more</span>
+                      EXPENSE
+                    </button>
+                    <button 
+                      type="button"
+                      onClick={() => setForm({...form, type: 'INCOME'})}
+                      className={`flex-1 py-1 font-label-caps text-xs font-bold rounded-md transition-all ${form.type === 'INCOME' ? 'bg-primary/10 text-primary border border-primary/20 shadow-sm' : 'text-outline hover:text-on-surface hover:bg-surface-container-high'}`}
+                    >
+                      INCOME
+                    </button>
                   </div>
                 </div>
                 <div>

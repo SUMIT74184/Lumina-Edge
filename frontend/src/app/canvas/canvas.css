@@ -1,0 +1,416 @@
+/* ============================================================
+   Canvas Module — Tiptap Editor Styles
+   Matches the Lumina Edge dark premium design system
+   ============================================================ */
+
+/* ---- Tiptap editor core ---- */
+.tiptap {
+  outline: none;
+  min-height: 400px;
+  font-family: var(--font-body-md);
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--color-on-surface);
+  caret-color: var(--color-primary);
+}
+
+.tiptap:focus {
+  outline: none;
+}
+
+/* ---- Headings ---- */
+.tiptap h1 {
+  font-family: var(--font-headline-xl);
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 1.5rem 0 0.75rem;
+  color: var(--color-on-surface);
+  letter-spacing: -0.02em;
+}
+
+.tiptap h2 {
+  font-family: var(--font-headline-lg);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.25rem 0 0.5rem;
+  color: var(--color-on-surface);
+  letter-spacing: -0.01em;
+}
+
+.tiptap h3 {
+  font-family: var(--font-headline-md);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 1rem 0 0.4rem;
+  color: var(--color-on-surface-variant);
+}
+
+/* ---- Paragraphs ---- */
+.tiptap p {
+  margin: 0.25rem 0;
+}
+
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--color-outline);
+  pointer-events: none;
+  height: 0;
+  font-style: italic;
+}
+
+/* ---- Lists ---- */
+.tiptap ul,
+.tiptap ol {
+  padding-left: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.tiptap ul {
+  list-style-type: disc;
+}
+
+.tiptap ol {
+  list-style-type: decimal;
+}
+
+.tiptap li {
+  margin: 0.15rem 0;
+}
+
+.tiptap li p {
+  margin: 0;
+}
+
+/* ---- Task lists ---- */
+.tiptap ul[data-type="taskList"] {
+  list-style: none;
+  padding-left: 0;
+}
+
+.tiptap ul[data-type="taskList"] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin: 0.35rem 0;
+}
+
+.tiptap ul[data-type="taskList"] li label {
+  display: flex;
+  align-items: center;
+  margin-top: 0.2rem;
+}
+
+.tiptap ul[data-type="taskList"] li label input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-outline-variant);
+  border-radius: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+  background: transparent;
+}
+
+.tiptap ul[data-type="taskList"] li label input[type="checkbox"]:hover {
+  border-color: var(--color-primary);
+}
+
+.tiptap ul[data-type="taskList"] li label input[type="checkbox"]:checked {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.tiptap ul[data-type="taskList"] li label input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--color-on-primary);
+  font-weight: bold;
+}
+
+.tiptap ul[data-type="taskList"] li[data-checked="true"] > div > p {
+  text-decoration: line-through;
+  color: var(--color-outline);
+}
+
+/* ---- Blockquote ---- */
+.tiptap blockquote {
+  border-left: 3px solid var(--color-primary);
+  padding-left: 1rem;
+  margin: 0.75rem 0;
+  color: var(--color-on-surface-variant);
+  font-style: italic;
+}
+
+/* ---- Code blocks ---- */
+.tiptap pre {
+  background: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 0.75rem 0;
+  overflow-x: auto;
+}
+
+.tiptap pre code {
+  font-family: var(--font-data-display);
+  font-size: 13px;
+  color: var(--color-primary-fixed-dim);
+  background: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* ---- Inline code ---- */
+.tiptap code {
+  font-family: var(--font-data-display);
+  font-size: 13px;
+  background: var(--color-surface-container-high);
+  color: var(--color-primary-fixed-dim);
+  padding: 0.15em 0.35em;
+  border-radius: 4px;
+}
+
+/* ---- Horizontal rule ---- */
+.tiptap hr {
+  border: none;
+  border-top: 1px solid var(--color-outline-variant);
+  margin: 1.5rem 0;
+}
+
+/* ---- Highlight ---- */
+.tiptap mark {
+  background: rgba(185, 200, 222, 0.25);
+  color: inherit;
+  border-radius: 2px;
+  padding: 0.05em 0.15em;
+}
+
+/* ---- Strong / Italic ---- */
+.tiptap strong {
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
+
+.tiptap em {
+  font-style: italic;
+}
+
+.tiptap s {
+  text-decoration: line-through;
+  color: var(--color-outline);
+}
+
+.tiptap u {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---- Images and Videos ---- */
+.tiptap img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.tiptap iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  margin: 1rem 0;
+  border: none;
+}
+
+/* ---- Tables ---- */
+.tiptap table {
+  border-collapse: collapse;
+  margin: 1rem 0;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 0 1px var(--color-outline-variant);
+}
+
+.tiptap td,
+.tiptap th {
+  min-width: 1em;
+  border: 1px solid var(--color-outline-variant);
+  padding: 8px 12px;
+  vertical-align: top;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.tiptap th {
+  background-color: var(--color-surface-container-high);
+  font-weight: 600;
+  text-align: left;
+}
+
+.tiptap .selectedCell:after {
+  z-index: 2;
+  position: absolute;
+  content: "";
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(200, 200, 255, 0.4);
+  pointer-events: none;
+}
+
+/* ---- Slash menu ---- */
+.slash-menu {
+  background: var(--color-surface-container-high);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 12px;
+  padding: 6px;
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.05) inset;
+  min-width: 240px;
+  max-height: 320px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.slash-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: var(--color-on-surface);
+  font-size: 14px;
+}
+
+.slash-menu-item:hover,
+.slash-menu-item.is-selected {
+  background: var(--color-surface-container-highest);
+}
+
+.slash-menu-item .icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-surface-container);
+  border-radius: 6px;
+  font-size: 18px;
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.slash-menu-item .label {
+  font-weight: 500;
+}
+
+.slash-menu-item .description {
+  font-size: 12px;
+  color: var(--color-outline);
+}
+
+/* ---- Floating toolbar ---- */
+.floating-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  background: var(--color-surface-container-highest);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: 10px;
+  padding: 4px;
+  box-shadow:
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+  z-index: 100;
+}
+
+.floating-toolbar button {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  color: var(--color-on-surface-variant);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.12s ease;
+  font-size: 18px;
+}
+
+.floating-toolbar button:hover {
+  background: var(--color-surface-container-high);
+  color: var(--color-on-surface);
+}
+
+.floating-toolbar button.is-active {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.floating-toolbar .divider {
+  width: 1px;
+  height: 20px;
+  background: var(--color-outline-variant);
+  margin: 0 4px;
+}
+
+/* ---- Page list animations ---- */
+.canvas-page-item {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.canvas-page-item:hover {
+  transform: translateX(4px);
+}
+
+/* ---- Quota banner ---- */
+.quota-bar-fill {
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ---- Smooth editor transitions ---- */
+.editor-container {
+  animation: editorFadeIn 0.3s ease;
+}
+
+@keyframes editorFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- Scrollbar for page list ---- */
+.canvas-page-list::-webkit-scrollbar {
+  width: 3px;
+}
+
+.canvas-page-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.canvas-page-list::-webkit-scrollbar-thumb {
+  background: var(--color-outline-variant);
+  border-radius: 3px;
+}

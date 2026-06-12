@@ -60,23 +60,23 @@
   --spacing-section-gap: 80px;
   --spacing-margin: 24px;
 
-  --font-body-sm: "Inter", sans-serif;
-  --font-label-caps: "JetBrains Mono", monospace;
-  --font-headline-lg: "Hanken Grotesk", sans-serif;
-  --font-headline-md: "Hanken Grotesk", sans-serif;
-  --font-headline-xl: "Hanken Grotesk", sans-serif;
-  --font-display-lg: "Hanken Grotesk", sans-serif;
-  --font-display-lg-mobile: "Hanken Grotesk", sans-serif;
-  --font-body-lg: "Inter", sans-serif;
-  --font-body-md: "Inter", sans-serif;
-  --font-data-display: "JetBrains Mono", monospace;
+  --font-body-sm: "Inter", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  --font-label-caps: "JetBrains Mono", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", monospace;
+  --font-headline-lg: "Hanken Grotesk", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  --font-headline-md: "Hanken Grotesk", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  --font-headline-xl: "Hanken Grotesk", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  --font-display-lg: "Hanken Grotesk", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  --font-display-lg-mobile: "Hanken Grotesk", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  --font-body-lg: "Inter", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  --font-body-md: "Inter", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+  --font-data-display: "JetBrains Mono", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", monospace;
 }
 
 @layer base {
   body {
     background-color: var(--color-background);
     color: var(--color-on-background);
-    font-family: var(--font-body-md);
+    font-family: var(--font-body-md), "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     color-scheme: dark;
   }
 }

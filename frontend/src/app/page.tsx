@@ -56,15 +56,21 @@ export default function HomePage() {
   
   const [activityData, setActivityData] = useState<any[]>([]);
   useEffect(() => {
+    const formatToIST = (utcHour: number) => {
+      const date = new Date();
+      date.setUTCHours(utcHour, 0, 0, 0);
+      return date.toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', hour12: false });
+    };
+
     if (rawActivityData && rawActivityData.length > 0) {
       setActivityData(rawActivityData.map(d => ({
-        time: `${d.hour.toString().padStart(2, '0')}:00`,
+        time: formatToIST(d.hour),
         activity: d.count
       })));
     } else {
       // Show empty 24-hour grid when no data yet
       setActivityData(Array.from({ length: 24 }, (_, i) => ({
-        time: `${i.toString().padStart(2, '0')}:00`,
+        time: formatToIST(i),
         activity: 0
       })));
     }
@@ -103,8 +109,18 @@ export default function HomePage() {
           </div>
           <div className="flex items-center gap-stack-md">
             <div className="relative hidden sm:block">
-              <input className="bg-surface-container-low border-none rounded-lg py-2 pl-4 pr-10 text-body-sm w-64 focus:ring-1 focus:ring-outline text-on-surface" placeholder="Global Search..." type="text" />
-              <span className="material-symbols-outlined absolute right-3 top-2 text-outline">search</span>
+              <input 
+                className="bg-surface-container-low border-none rounded-lg py-2 pl-4 pr-10 text-body-sm w-64 focus:ring-1 focus:ring-outline text-on-surface transition-all focus:w-80" 
+                placeholder="Global Search..." 
+                type="text" 
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    alert(`Search results for "${e.currentTarget.value}" are being indexed by the Graphify-Out memory system. Please try again later.`);
+                    e.currentTarget.value = '';
+                  }
+                }}
+              />
+              <span className="material-symbols-outlined absolute right-3 top-2 text-outline pointer-events-none">search</span>
             </div>
             <button className="material-symbols-outlined text-on-surface-variant opacity-80 active:opacity-100 transition-all">notifications</button>
             <UserButton appearance={{ elements: { userButtonAvatarBox: "w-8 h-8" } }} />

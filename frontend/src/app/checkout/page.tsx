@@ -121,12 +121,13 @@ function CheckoutForm() {
           </button>
           <button
             type="button"
-            className={`flex flex-col items-start p-stack-md bg-surface-container-lowest border-2 ${tab === 'card' ? 'border-primary' : 'border-outline-variant opacity-60'} rounded-lg transition-all duration-200`}
+            disabled
+            className={`flex flex-col items-start p-stack-md bg-surface-container-lowest border-2 border-outline-variant opacity-40 cursor-not-allowed rounded-lg transition-all duration-200 relative overflow-hidden`}
             id="tab-card"
-            onClick={() => setTab('card')}
           >
+            <span className="absolute top-2 right-2 bg-error text-on-error text-[10px] font-bold px-2 py-0.5 rounded-full font-label-caps">COMING SOON</span>
             <span className="material-symbols-outlined text-on-surface-variant mb-2">credit_card</span>
-            <span className="font-label-caps text-label-caps">Credit / Debit Card</span>
+            <span className="font-label-caps text-label-caps text-outline">Credit / Debit Card</span>
           </button>
         </div>
 
@@ -138,9 +139,22 @@ function CheckoutForm() {
                 <img alt="QR Code" className="w-40 h-40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDe92khM9TFgvuz2KwuZvVFL9ujbNJmUhwmNcSH0kTfciqbfWQShsjzEuqX1RFU6088aRitnwbzDZMqlRCrLpUFEHTkJoTZsrOQDnj7ahzG4fkp2-6s0W0INnZx-me4DWwl6LNp3q7KmfMXlfb6WaCITnBoScOy9ZgfOCjm2C40dHQFIJmzYjOHhGLNE8-deKh5Y5je1iUiRnUGQUCn2Vp5ytarNVQ24begXjfnMGOgB1U3UlfrjPBQSfPO5oMAPP4avpbifMEn39c" />
               </div>
               <p className="font-label-caps text-label-caps text-outline text-center">Scan to pay with any UPI app</p>
+              
+              <div className="bg-surface-container-highest p-5 rounded-lg w-full mt-2 text-left border-l-4 border-primary shadow-lg">
+                <h4 className="font-bold text-on-surface mb-3 font-label-caps">Verification Steps:</h4>
+                <ol className="list-decimal list-inside text-sm text-on-surface-variant space-y-2 mb-4 font-body-sm">
+                  <li>Complete the payment using the QR code above.</li>
+                  <li>Take a clear screenshot of the successful transaction.</li>
+                  <li>Email the screenshot to <a href="mailto:support@luminaedge.com" className="text-primary hover:underline font-bold">support@luminaedge.com</a>.</li>
+                </ol>
+                <p className="text-sm text-outline italic">Within 30-45 mins you will get access to your account.</p>
+                <div className="mt-4 bg-error/10 text-error p-3 rounded-md text-xs font-bold border border-error/30 font-label-caps tracking-wide">
+                  NOTE: Any fake images, IDs will lead to actions as per the law!
+                </div>
+              </div>
             </div>
             <div className="relative">
-              <label className="font-label-caps text-label-caps text-outline-variant mb-2 block">Or Enter VPA (UPI ID)</label>
+              <label className="font-label-caps text-label-caps text-outline-variant mb-2 block">Or Enter VPA (UPI ID) Reference</label>
               <input
                 className="w-full bg-surface-container-low border border-outline-variant rounded-lg p-stack-md font-data-display text-data-display focus:border-primary transition-colors text-on-surface"
                 placeholder="username@bankname"
@@ -149,71 +163,20 @@ function CheckoutForm() {
                 onChange={(e) => setUpiId(e.target.value)}
                 required={tab === 'upi'}
               />
-              <button type="button" className="absolute right-3 top-[34px] font-label-caps text-label-caps text-primary hover:text-white transition-colors">VERIFY</button>
             </div>
           </div>
 
-          {/* Card Input Area */}
-          <div className={`${tab === 'card' ? 'flex' : 'hidden'} flex-col gap-stack-md animate-in fade-in duration-300`} id="content-card">
-            <div className="flex flex-col gap-stack-sm">
-              <label className="font-label-caps text-label-caps text-outline-variant">Cardholder Name</label>
-              <input
-                className="w-full bg-surface-container-low border border-outline-variant rounded-lg p-stack-md font-data-display text-data-display uppercase text-on-surface"
-                placeholder="EX: ALEXANDER VANCE"
-                type="text"
-                value={cardName}
-                onChange={(e) => setCardName(e.target.value)}
-                required={tab === 'card'}
-              />
-            </div>
-            <div className="flex flex-col gap-stack-sm">
-              <label className="font-label-caps text-label-caps text-outline-variant">Card Number</label>
-              <div className="relative">
-                <input
-                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg p-stack-md font-data-display text-data-display text-on-surface"
-                  placeholder="0000 0000 0000 0000"
-                  type="text"
-                  value={cardNumber}
-                  onChange={(e) => setCardNumber(e.target.value)}
-                  required={tab === 'card'}
-                />
-                <span className="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant">credit_card</span>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-stack-md">
-              <div className="flex flex-col gap-stack-sm">
-                <label className="font-label-caps text-label-caps text-outline-variant">Expiry Date</label>
-                <input
-                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg p-stack-md font-data-display text-data-display text-on-surface"
-                  placeholder="MM / YY"
-                  type="text"
-                  value={expiry}
-                  onChange={(e) => setExpiry(e.target.value)}
-                  required={tab === 'card'}
-                />
-              </div>
-              <div className="flex flex-col gap-stack-sm">
-                <label className="font-label-caps text-label-caps text-outline-variant">CVV</label>
-                <input
-                  className="w-full bg-surface-container-low border border-outline-variant rounded-lg p-stack-md font-data-display text-data-display text-on-surface"
-                  placeholder="***"
-                  type="password"
-                  value={cvv}
-                  onChange={(e) => setCvv(e.target.value)}
-                  required={tab === 'card'}
-                />
-              </div>
-            </div>
-          </div>
+          {/* Card Input Area - Hidden/Disabled completely */}
+          <div className="hidden"></div>
 
           {/* Action */}
           <div className="mt-4">
             <button type="submit" className="w-full py-5 bg-on-surface text-surface font-headline-md text-headline-md font-bold uppercase tracking-widest hover:bg-white hover:text-black active:scale-[0.98] transition-all rounded-lg shadow-lg">
-              Authorize Payment
+              Confirm Payment Details Sent
             </button>
             <div className="flex items-center justify-center gap-2 mt-stack-md text-outline">
               <span className="material-symbols-outlined text-[18px]">lock</span>
-              <span className="font-label-caps text-[10px] tracking-widest">SSL SECURED 256-BIT ENCRYPTION</span>
+              <span className="font-label-caps text-[10px] tracking-widest">MANUAL VERIFICATION REQUIRED</span>
             </div>
           </div>
         </form>
